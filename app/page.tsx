@@ -38,332 +38,176 @@ export default function HomePage() {
   const heroPhoto = featuredPhotos[currentHero];
 
   return (
-    <>
-      {/* ── Hero Section ───────────────────────────────────────── */}
-      <section style={{
-        position: 'relative',
-        height: '85vh',
-        minHeight: '620px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'hidden',
-        background: 'linear-gradient(135deg, #E2E6EE 0%, #C2C9D6 100%)',
-      }}>
-        {/* Background image */}
-        {heroPhoto?.thumbnailUrl ? (
-          <div style={{
-            position: 'absolute', inset: 0,
-            transition: 'opacity 1.5s ease',
-          }}>
+    <div className="home-page-container">
+      {/* ── Senoia-style Digital Archive Banner ─────────────────── */}
+      <section className="archive-hero-banner">
+        {/* Background photo preview if available */}
+        {heroPhoto?.thumbnailUrl && (
+          <div className="hero-bg-photo">
             <Image
               src={heroPhoto.thumbnailUrl}
               alt={heroPhoto.title}
               fill
-              style={{ objectFit: 'cover', opacity: 0.35 }}
+              style={{ objectFit: 'cover', opacity: 0.2 }}
               priority
             />
           </div>
-        ) : (
-          <div style={{
-            position: 'absolute', inset: 0,
-            background: 'radial-gradient(circle at center, #EAEFF5 0%, #BCC3CE 100%)',
-          }} />
         )}
 
-        {/* Gradient overlay */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(to bottom, rgba(226,230,238,0.25) 0%, rgba(200,207,218,0.7) 60%, rgba(188,195,206,0.96) 100%)',
-        }} />
+        <div className="hero-content">
+          <div className="hero-badge">
+            <span className="badge-icon">🏛️</span>
+            <span>DIGITAL ARCHIVES & SPECIAL COLLECTIONS</span>
+          </div>
 
-        {/* Hero content */}
-        <div style={{
-          position: 'relative',
-          zIndex: 2,
-          textAlign: 'center',
-          padding: '0 24px',
-          maxWidth: '860px',
-        }}>
-          <p style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '12px',
-            fontWeight: 700,
-            letterSpacing: '3.5px',
-            textTransform: 'uppercase',
-            color: '#4F5866',
-            marginBottom: '20px',
-          }}>
-            WWII Aviation Photography Archive
-          </p>
-          <h1 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
-            fontWeight: 700,
-            color: '#121417',
-            lineHeight: 1.1,
-            marginBottom: '24px',
-            letterSpacing: '-0.02em',
-          }}>
-            Tom&apos;s Warplane Archive
+          <h1 className="hero-title">
+            Explore WWII Aviation History
           </h1>
-          <p style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: 'clamp(1rem, 2vw, 1.18rem)',
-            color: '#343A45',
-            marginBottom: '44px',
-            lineHeight: 1.7,
-            maxWidth: '640px',
-            margin: '0 auto 44px',
-          }}>
-            Preserving the visual history of WWII aviation — photographs, personal records,
-            and the stories of the men and machines that shaped history.
+
+          <p className="hero-subtitle">
+            A comprehensive repository of wartime aircraft photography, pilot biographies, unit records, and primary historical documents.
           </p>
 
-          {/* Search bar */}
-          <form onSubmit={handleSearch} style={{
-            display: 'flex',
-            gap: '0',
-            maxWidth: '560px',
-            margin: '0 auto 48px',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
-            borderRadius: '6px',
-            overflow: 'hidden',
-            border: '1px solid #B0B7C4',
-          }}>
+          {/* Archive Search Bar */}
+          <form onSubmit={handleSearch} className="archive-search-box">
             <input
               type="text"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              placeholder="Search by pilot, serial number, unit, or aircraft…"
-              style={{
-                flex: 1,
-                padding: '16px 20px',
-                fontSize: '15px',
-                fontFamily: 'var(--font-body)',
-                border: 'none',
-                background: '#FFFFFF',
-                color: '#121417',
-                outline: 'none',
-              }}
+              placeholder="Search by aircraft serial number, pilot name, unit, or date…"
+              className="search-field"
             />
-            <button type="submit" style={{
-              padding: '16px 28px',
-              background: '#121417',
-              color: '#FFFFFF',
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: '15px',
-              fontFamily: 'var(--font-body)',
-              fontWeight: 600,
-              transition: 'all 0.2s ease',
-            }}>
-              Search
+            <button type="submit" className="search-btn">
+              Search Database
             </button>
           </form>
 
-          {/* Stats */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '56px',
-            flexWrap: 'wrap',
-          }}>
-            {[
-              { value: '3,000+', label: 'Photographs' },
-              { value: '400+', label: 'Aircraft' },
-              { value: '1939–1945', label: 'Era Covered' },
-            ].map(stat => (
-              <div key={stat.label} style={{ textAlign: 'center' }}>
-                <p style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '2.1rem',
-                  fontWeight: 700,
-                  color: '#121417',
-                  marginBottom: '2px',
-                }}>{stat.value}</p>
-                <p style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '12px',
-                  letterSpacing: '1.5px',
-                  textTransform: 'uppercase',
-                  color: '#4F5866',
-                }}>{stat.label}</p>
-              </div>
-            ))}
+          {/* Quick Filter Tags */}
+          <div className="quick-tags">
+            <span className="tags-label">Popular Searches:</span>
+            <Link href="/search?q=B-17" className="tag-link">B-17 Fortress</Link>
+            <Link href="/search?q=P-51" className="tag-link">P-51 Mustang</Link>
+            <Link href="/search?q=8th+Air+Force" className="tag-link">8th Air Force</Link>
+            <Link href="/search?q=Serial" className="tag-link">Serial Numbers</Link>
+          </div>
+
+          {/* Stats Bar */}
+          <div className="hero-stats-row">
+            <div className="stat-pill">
+              <span className="stat-num">3,000+</span>
+              <span className="stat-lbl">Wartime Photos</span>
+            </div>
+            <div className="stat-divider" />
+            <div className="stat-pill">
+              <span className="stat-num">400+</span>
+              <span className="stat-lbl">Aircraft Cataloged</span>
+            </div>
+            <div className="stat-divider" />
+            <div className="stat-pill">
+              <span className="stat-num">1939–1945</span>
+              <span className="stat-lbl">Historical Era</span>
+            </div>
           </div>
         </div>
-
-        {/* Hero nav dots */}
-        {featuredPhotos.length > 1 && (
-          <div style={{
-            position: 'absolute', bottom: '32px',
-            left: '50%', transform: 'translateX(-50%)',
-            display: 'flex', gap: '8px', zIndex: 2,
-          }}>
-            {featuredPhotos.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrentHero(i)}
-                aria-label={`Go to photo ${i + 1}`}
-                style={{
-                  width: i === currentHero ? '24px' : '8px',
-                  height: '8px',
-                  borderRadius: '4px',
-                  background: i === currentHero ? '#121417' : 'rgba(18,20,23,0.25)',
-                  border: 'none',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  padding: 0,
-                }}
-              />
-            ))}
-          </div>
-        )}
       </section>
 
-      {/* ── Browse Categories ─────────────────────────────────── */}
-      <section className="section" style={{ background: 'var(--bg)' }}>
+      {/* ── Curated Digital Collections ─────────────────────────── */}
+      <section className="collections-section">
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <p style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '12px',
-              fontWeight: 700,
-              letterSpacing: '3px',
-              textTransform: 'uppercase',
-              color: 'var(--text-muted)',
-              marginBottom: '12px',
-            }}>Browse the Archive</p>
-            <h2 style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(1.8rem, 3vw, 2.6rem)',
-              color: 'var(--text)',
-            }}>Three Ways to Explore</h2>
+          <div className="section-header">
+            <p className="section-kicker">DISCOVERY TOOLS & COLLECTIONS</p>
+            <h2 className="section-title">Explore Archives & Records</h2>
           </div>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '24px',
-          }}>
-            {[
-              {
-                href: '/gallery',
-                icon: '📷',
-                title: 'Photographs',
-                desc: 'Browse thousands of wartime aircraft photographs, searchable by aircraft type, serial number, unit, and date.',
-                cta: 'Browse Gallery',
-                color: '#16191D',
-              },
-              {
-                href: '/persons',
-                icon: '🧑‍✈️',
-                title: 'Historic Persons',
-                desc: 'Read biographies of pilots, crew members, and other notable figures — linked to their photographs and records.',
-                cta: 'Meet the Airmen',
-                color: '#4F5866',
-              },
-              {
-                href: '/documents',
-                icon: '📄',
-                title: 'Documents',
-                desc: 'Pilot manuals, printed orders, certificates, maps, and other primary source materials from the war.',
-                cta: 'View Documents',
-                color: '#8C96A5',
-              },
-            ].map(card => (
-              <Link key={card.href} href={card.href} style={{ textDecoration: 'none' }}>
-                <div className="card" style={{
-                  padding: '40px 32px',
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  cursor: 'pointer',
-                  borderTop: `4px solid ${card.color}`,
-                }}>
-                  <span style={{ fontSize: '2.5rem', marginBottom: '20px' }}>{card.icon}</span>
-                  <h3 style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '1.5rem',
-                    color: 'var(--text)',
-                    marginBottom: '12px',
-                  }}>{card.title}</h3>
-                  <p style={{
-                    fontFamily: 'var(--font-body)',
-                    color: 'var(--text-muted)',
-                    lineHeight: 1.7,
-                    flex: 1,
-                    marginBottom: '24px',
-                  }}>{card.desc}</p>
-                  <span style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    color: card.color,
-                    letterSpacing: '0.5px',
-                  }}>
-                    {card.cta} →
-                  </span>
+          <div className="collections-grid">
+            <Link href="/gallery" className="collection-card-link">
+              <div className="collection-card">
+                <div className="card-badge">PHOTOGRAPHY</div>
+                <div className="card-icon-box">📷</div>
+                <h3 className="card-title">Wartime Aircraft Gallery</h3>
+                <p className="card-desc">
+                  High-resolution photo archive with detailed plane serial numbers, crew rosters, and contextual explanations.
+                </p>
+                <div className="card-action">
+                  <span>Browse Photographs →</span>
                 </div>
-              </Link>
-            ))}
+              </div>
+            </Link>
+
+            <Link href="/persons" className="collection-card-link">
+              <div className="collection-card">
+                <div className="card-badge">BIOGRAPHIES</div>
+                <div className="card-icon-box">🧑‍✈️</div>
+                <h3 className="card-title">Historic Airmen & Pilots</h3>
+                <p className="card-desc">
+                  Biographical profiles of wartime pilots and crew members, cross-referenced with postwar photos and records.
+                </p>
+                <div className="card-action">
+                  <span>Explore Biographies →</span>
+                </div>
+              </div>
+            </Link>
+
+            <Link href="/documents" className="collection-card-link">
+              <div className="collection-card">
+                <div className="card-badge">DOCUMENTS</div>
+                <div className="card-icon-box">📄</div>
+                <h3 className="card-title">Primary Source Documents</h3>
+                <p className="card-desc">
+                  PDF scans of flight manuals, printed orders, certificates, maps, and official military documentation.
+                </p>
+                <div className="card-action">
+                  <span>View Documents →</span>
+                </div>
+              </div>
+            </Link>
+
+            <Link href="/search" className="collection-card-link">
+              <div className="collection-card">
+                <div className="card-badge">RESEARCH</div>
+                <div className="card-icon-box">🔍</div>
+                <h3 className="card-title">Advanced Search & Filtering</h3>
+                <p className="card-desc">
+                  Query the archive by plane serial number, military unit, pilot name, or specific historical date ranges.
+                </p>
+                <div className="card-action">
+                  <span>Open Research Tool →</span>
+                </div>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ── Recent Photos Preview ─────────────────────────────── */}
+      {/* ── Recent Acquisitions Preview ─────────────────────────── */}
       {featuredPhotos.length > 0 && (
-        <section className="section" style={{ background: 'var(--bg-alt)' }}>
+        <section className="acquisitions-section">
           <div className="container">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '36px', flexWrap: 'wrap', gap: '16px' }}>
+            <div className="acquisitions-header">
               <div>
-                <p style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '12px',
-                  fontWeight: 700,
-                  letterSpacing: '3px',
-                  textTransform: 'uppercase',
-                  color: 'var(--text-muted)',
-                  marginBottom: '8px',
-                }}>Recently Added</p>
-                <h2 style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(1.5rem, 2.5vw, 2rem)',
-                  color: 'var(--text)',
-                }}>Latest Photographs</h2>
+                <p className="section-kicker">RECENT ACQUISITIONS</p>
+                <h2 className="section-title">Latest Digital Additions</h2>
               </div>
-              <Link href="/gallery" className="btn btn-secondary">View All Photos</Link>
+              <Link href="/gallery" className="btn btn-secondary">View Full Gallery</Link>
             </div>
 
             <div className="photo-grid">
               {featuredPhotos.slice(0, 3).map(photo => (
                 <Link key={photo.id} href={`/photo/${photo.id}`} style={{ textDecoration: 'none' }}>
-                  <div className="card" style={{ overflow: 'hidden' }}>
-                    <div style={{ position: 'relative', aspectRatio: '4/3', background: 'var(--bg-alt)' }}>
+                  <div className="card archive-item-card">
+                    <div className="card-img-wrap">
                       {photo.thumbnailUrl ? (
                         <Image src={photo.thumbnailUrl} alt={photo.title} fill style={{ objectFit: 'cover' }} />
                       ) : (
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-                          <span style={{ fontSize: '3rem', opacity: 0.3 }}>✈️</span>
-                        </div>
+                        <div className="placeholder-box">✈️</div>
                       )}
                     </div>
-                    <div style={{ padding: '16px' }}>
-                      <h3 style={{
-                        fontFamily: 'var(--font-display)',
-                        fontSize: '1rem',
-                        color: 'var(--text)',
-                        marginBottom: '8px',
-                        display: '-webkit-box',
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical',
-                        overflow: 'hidden',
-                      }}>{photo.title}</h3>
-                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+                    <div className="card-body">
+                      <h3 className="item-title">{photo.title}</h3>
+                      <div className="item-meta">
                         {photo.year && <span className="badge badge-navy">{photo.year}</span>}
-                        {photo.planeType && <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{photo.planeType}</span>}
-                        {photo.planeSerial && <span className="serial-number" style={{ fontSize: '11px' }}>{photo.planeSerial}</span>}
+                        {photo.planeType && <span className="meta-text">{photo.planeType}</span>}
+                        {photo.planeSerial && <span className="serial-number">{photo.planeSerial}</span>}
                       </div>
                     </div>
                   </div>
@@ -374,42 +218,375 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* ── About / Mission ───────────────────────────────────── */}
-      <section className="section" style={{ background: '#C4CAD5', color: '#121417', borderTop: '1px solid #B0B7C4' }}>
-        <div className="container-narrow" style={{ textAlign: 'center' }}>
-          <p style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '12px',
-            fontWeight: 700,
-            letterSpacing: '3px',
-            textTransform: 'uppercase',
-            color: '#4F5866',
-            marginBottom: '16px',
-          }}>About the Archive</p>
-          <h2 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(1.8rem, 3vw, 2.4rem)',
-            marginBottom: '24px',
-            color: '#121417',
-          }}>Preserving Aviation History</h2>
-          <p style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '1.08rem',
-            lineHeight: 1.8,
-            color: '#343A45',
-            marginBottom: '32px',
-          }}>
-            This archive is dedicated to collecting, preserving, and sharing photographs and records
-            from WWII aviation. Each image is paired with detailed metadata — aircraft serial numbers,
-            unit assignments, crew information, and contextual history — to serve researchers,
-            historians, and aviation enthusiasts worldwide.
-          </p>
-          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/gallery" className="btn btn-primary" style={{ background: '#121417', color: '#FFFFFF', borderColor: '#121417' }}>Explore the Gallery</Link>
-            <Link href="/search" className="btn btn-secondary" style={{ borderColor: '#121417', color: '#121417', background: 'transparent' }}>Search the Archive</Link>
+      {/* ── Archival Mission Statement ───────────────────────────── */}
+      <section className="mission-section">
+        <div className="container-narrow">
+          <div className="mission-box">
+            <p className="section-kicker">ABOUT THE DIGITAL ARCHIVE</p>
+            <h2 className="mission-title">Preserving History, One Record at a Time</h2>
+            <p className="mission-desc">
+              Tom&apos;s Warplane Archive is dedicated to securing, preserving, and providing public access to WWII aviation history.
+              Every photograph is documented with exact serial numbers, photographer credits, and unit history to assist researchers and historians worldwide.
+            </p>
+            <div className="mission-actions">
+              <Link href="/gallery" className="btn btn-primary">Browse All Collections</Link>
+              <Link href="/admin" className="btn btn-secondary">Admin Access</Link>
+            </div>
           </div>
         </div>
       </section>
-    </>
+
+      <style jsx>{`
+        .home-page-container {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .archive-hero-banner {
+          position: relative;
+          background: linear-gradient(135deg, #E6EAEE 0%, #C4CBD7 100%);
+          padding: 64px 24px;
+          border-bottom: 1px solid #C0C7D4;
+          overflow: hidden;
+        }
+        .hero-bg-photo {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+        }
+        .hero-content {
+          position: relative;
+          z-index: 2;
+          max-width: 860px;
+          margin: 0 auto;
+          text-align: center;
+        }
+
+        .hero-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 6px 14px;
+          background-color: #FFFFFF;
+          border: 1px solid #C4CBD6;
+          border-radius: var(--radius-full);
+          font-size: 0.75rem;
+          font-weight: 800;
+          letter-spacing: 0.12em;
+          color: #3D4552;
+          margin-bottom: 24px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+        }
+        .badge-icon {
+          font-size: 0.9rem;
+        }
+
+        .hero-title {
+          font-family: var(--font-heading);
+          font-size: clamp(2.2rem, 5vw, 3.8rem);
+          font-weight: 700;
+          color: #121417;
+          line-height: 1.15;
+          margin-bottom: 18px;
+          letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+          font-size: clamp(1rem, 2vw, 1.15rem);
+          color: #343A45;
+          line-height: 1.7;
+          max-width: 680px;
+          margin: 0 auto 36px;
+        }
+
+        .archive-search-box {
+          display: flex;
+          max-width: 620px;
+          margin: 0 auto 20px;
+          background-color: #FFFFFF;
+          border: 1px solid #A8B1C0;
+          border-radius: var(--radius-md);
+          box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+          overflow: hidden;
+        }
+        .search-field {
+          flex: 1;
+          padding: 16px 20px;
+          border: none;
+          font-family: var(--font-body);
+          font-size: 0.95rem;
+          color: #121417;
+          outline: none;
+        }
+        .search-btn {
+          padding: 16px 28px;
+          background-color: #121417;
+          color: #FFFFFF;
+          border: none;
+          font-family: var(--font-body);
+          font-weight: 600;
+          font-size: 0.9375rem;
+          cursor: pointer;
+          transition: background 0.2s ease;
+        }
+        .search-btn:hover {
+          background-color: #2D333C;
+        }
+
+        .quick-tags {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          flex-wrap: wrap;
+          margin-bottom: 40px;
+        }
+        .tags-label {
+          font-size: 0.78rem;
+          font-weight: 700;
+          color: #5C6470;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+        .tag-link {
+          font-size: 0.8125rem;
+          color: #121417;
+          background-color: rgba(255,255,255,0.7);
+          padding: 4px 10px;
+          border-radius: var(--radius-full);
+          border: 1px solid #C4CBD6;
+          text-decoration: none;
+          font-weight: 500;
+          transition: all 0.2s ease;
+        }
+        .tag-link:hover {
+          background-color: #FFFFFF;
+          border-color: #121417;
+        }
+
+        .hero-stats-row {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 32px;
+          flex-wrap: wrap;
+          padding-top: 24px;
+          border-top: 1px solid rgba(18,20,23,0.12);
+        }
+        .stat-pill {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .stat-num {
+          font-family: var(--font-heading);
+          font-size: 1.8rem;
+          font-weight: 700;
+          color: #121417;
+          line-height: 1;
+        }
+        .stat-lbl {
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: #4F5866;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          margin-top: 4px;
+        }
+        .stat-divider {
+          width: 1px;
+          height: 28px;
+          background-color: rgba(18,20,23,0.15);
+        }
+        @media (max-width: 640px) {
+          .stat-divider { display: none; }
+        }
+
+        .collections-section {
+          padding: 64px 0;
+          background-color: var(--bg);
+        }
+        .section-header {
+          text-align: center;
+          margin-bottom: 40px;
+        }
+        .section-kicker {
+          font-size: 0.75rem;
+          font-weight: 800;
+          letter-spacing: 0.12em;
+          color: #5C6470;
+          text-transform: uppercase;
+          margin-bottom: 8px;
+        }
+        .section-title {
+          font-family: var(--font-heading);
+          font-size: clamp(1.6rem, 3vw, 2.4rem);
+          color: #121417;
+        }
+
+        .collections-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 24px;
+        }
+        .collection-card-link {
+          text-decoration: none;
+          color: inherit;
+        }
+        .collection-card {
+          background-color: #FFFFFF;
+          border: 1px solid #D8DCE4;
+          border-radius: var(--radius-lg);
+          padding: 32px 24px;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          transition: all 0.25s ease;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+          position: relative;
+        }
+        .collection-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+          border-color: #A8B1C0;
+        }
+
+        .card-badge {
+          align-self: flex-start;
+          font-size: 0.65rem;
+          font-weight: 800;
+          letter-spacing: 0.1em;
+          color: #4F5866;
+          background-color: #EFF2F6;
+          padding: 3px 8px;
+          border-radius: var(--radius-sm);
+          margin-bottom: 16px;
+        }
+
+        .card-icon-box {
+          width: 52px;
+          height: 52px;
+          background-color: #F4F6F9;
+          border: 1px solid #E2E6ED;
+          border-radius: var(--radius-md);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.5rem;
+          margin-bottom: 20px;
+        }
+
+        .card-title {
+          font-family: var(--font-heading);
+          font-size: 1.3rem;
+          font-weight: 700;
+          color: #121417;
+          margin-bottom: 10px;
+        }
+
+        .card-desc {
+          font-size: 0.875rem;
+          color: #5C6470;
+          line-height: 1.6;
+          flex: 1;
+          margin-bottom: 24px;
+        }
+
+        .card-action {
+          font-size: 0.875rem;
+          font-weight: 700;
+          color: #121417;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+
+        .acquisitions-section {
+          padding: 64px 0;
+          background-color: #EFF2F6;
+          border-top: 1px solid #E1E5ED;
+          border-bottom: 1px solid #E1E5ED;
+        }
+        .acquisitions-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          margin-bottom: 32px;
+          flex-wrap: wrap;
+          gap: 16px;
+        }
+
+        .archive-item-card {
+          height: 100%;
+        }
+        .card-img-wrap {
+          position: relative;
+          aspect-ratio: 4/3;
+          background-color: #D8DCE4;
+        }
+        .placeholder-box {
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2.5rem;
+          opacity: 0.3;
+        }
+        .card-body {
+          padding: 16px;
+        }
+        .item-title {
+          font-family: var(--font-heading);
+          font-size: 1rem;
+          color: #121417;
+          margin-bottom: 10px;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        .item-meta {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+          flex-wrap: wrap;
+        }
+        .meta-text {
+          font-size: 0.78rem;
+          color: #5C6470;
+        }
+
+        .mission-section {
+          padding: 64px 0;
+          background-color: #D5DAE3;
+        }
+        .mission-box {
+          text-align: center;
+          background-color: #FFFFFF;
+          padding: 48px 36px;
+          border-radius: var(--radius-lg);
+          border: 1px solid #C4CBD6;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+        }
+        .mission-title {
+          font-family: var(--font-heading);
+          font-size: clamp(1.6rem, 3vw, 2.2rem);
+          color: #121417;
+          margin-bottom: 16px;
+        }
+        .mission-desc {
+          font-size: 1rem;
+          color: #4F5866;
+          line-height: 1.7;
+          margin-bottom: 32px;
+        }
+        .mission-actions {
+          display: flex;
+          gap: 16px;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+      `}</style>
+    </div>
   );
 }
