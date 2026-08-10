@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { AdminGuard } from "@/components/AdminGuard";
+import AdminGuard from "@/components/AdminGuard";
 import { signOutUser } from "@/lib/auth";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

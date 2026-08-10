@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-// Note: Actual implementation would import Firebase auth and firestore here.
-// import { getAuth, onAuthStateChanged } from 'firebase/auth';
-// import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { onAuthStateChanged, isUserAdmin } from '@/lib/auth';
 
 export default function AdminGuard({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
@@ -12,57 +10,56 @@ export default function AdminGuard({ children }: { children: React.ReactNode }) 
   const router = useRouter();
 
   useEffect(() => {
-    // Stub implementation for authentication
-    const checkAuth = async () => {
-      // In a real implementation, you would:
-      // 1. Get Firebase Auth user via onAuthStateChanged
-      // 2. Fetch doc(db, 'admins', user.uid)
-      // 3. Verify admin.active === true
-      
-      // Stub logic:
-      const isAuth = false; // default to false for stub
-      
-      if (!isAuth) {
-        // router.push('/admin/login');
+    const unsubscribe = onAuthStateChanged(async (user) => {
+      if (!user) {
+        setAuthorized(false);
         setLoading(false);
-        setAuthorized(false); // keep false so we don't render children
-      } else {
-        setAuthorized(true);
+        router.push('/admin/login');
+        return;
+      }
+
+      try {
+        const isAdmin = await isUserAdmin(user.uid);
+        if (isAdmin) {
+          setAuthorized(true);
+        } else {
+          setAuthorized(false);
+          router.push('/admin/login');
+        }
+      } catch (err) {
+        console.error('Error verifying admin status:', err);
+        setAuthorized(false);
+        router.push('/admin/login');
+      } finally {
         setLoading(false);
       }
-    };
+    });
 
-    checkAuth();
+    return () => unsubscribe();
   }, [router]);
 
   if (loading) {
     return (
-      <div className="admin-loading">
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '60vh',
+        gap: '16px',
+        color: 'var(--text-muted)'
+      }}>
         <div className="spinner"></div>
-        <p>Verifying access...</p>
-        <style jsx>{`
-          .admin-loading {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 50vh;
-            gap: 16px;
-            color: var(--text-muted);
-          }
-        `}</style>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem' }}>Verifying security permissions...</p>
       </div>
     );
   }
 
-  // If not authorized, ideally it redirected, but return null just in case
   if (!authorized) {
-    return (
-      <div className="empty-state">
-        <p>Redirecting to login...</p>
-      </div>
-    );
+    return null;
   }
 
   return <>{children}</>;
 }
+
+export { AdminGuard };
