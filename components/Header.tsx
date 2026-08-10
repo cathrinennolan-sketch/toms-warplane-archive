@@ -80,12 +80,13 @@ export default function Header() {
 
       <style jsx>{`
         .header {
-          background-color: var(--navy);
-          color: var(--surface);
+          background-color: #0F1114;
+          color: var(--text-light);
           position: sticky;
           top: 0;
           z-index: 100;
-          box-shadow: var(--shadow-sm);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          backdrop-filter: blur(12px);
         }
         .header-container {
           display: flex;
@@ -95,14 +96,15 @@ export default function Header() {
         }
         .logo {
           font-family: var(--font-heading);
-          font-size: 1.5rem;
+          font-size: 1.4rem;
           font-weight: 700;
-          color: var(--gold-light);
+          color: #FFFFFF;
           text-decoration: none;
+          letter-spacing: -0.01em;
         }
         .desktop-nav {
           display: none;
-          gap: 32px;
+          gap: 36px;
         }
         @media (min-width: 768px) {
           .desktop-nav {
@@ -114,20 +116,19 @@ export default function Header() {
         }
         .nav-link {
           font-weight: 500;
-          color: var(--surface);
-          opacity: 0.9;
+          font-size: 0.9375rem;
+          color: #9EA7B5;
           transition: all var(--transition-fast);
           padding: 8px 0;
           border-bottom: 2px solid transparent;
+          letter-spacing: 0.02em;
         }
         .nav-link:hover {
-          opacity: 1;
-          color: var(--gold-light);
+          color: #FFFFFF;
         }
         .nav-link.active {
-          opacity: 1;
-          color: var(--gold);
-          border-bottom-color: var(--gold);
+          color: #FFFFFF;
+          border-bottom-color: var(--silver-bright);
         }
         .header-right {
           display: flex;
@@ -135,13 +136,17 @@ export default function Header() {
           gap: 24px;
         }
         .admin-link {
-          font-size: 0.875rem;
-          color: var(--navy-light);
-          opacity: 0.8;
+          font-size: 0.84375rem;
+          color: #9EA7B5;
+          padding: 6px 12px;
+          border: 1px solid rgba(255,255,255,0.15);
+          border-radius: var(--radius-sm);
+          transition: all var(--transition-fast);
         }
         .admin-link:hover {
-          opacity: 1;
-          text-decoration: underline;
+          color: #FFFFFF;
+          border-color: rgba(255,255,255,0.4);
+          background-color: rgba(255,255,255,0.05);
         }
         .mobile-menu-btn {
           background: none;
@@ -154,26 +159,27 @@ export default function Header() {
           padding: 8px;
         }
         .mobile-nav {
-          background-color: var(--navy-dark);
-          padding: 16px 24px;
+          background-color: #16191D;
+          padding: 20px 24px;
           display: flex;
           flex-direction: column;
           gap: 16px;
+          border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         .mobile-nav-link {
-          color: var(--surface);
+          color: #9EA7B5;
           font-weight: 500;
           padding: 8px 0;
           display: block;
         }
         .mobile-nav-link.active {
-          color: var(--gold);
+          color: #FFFFFF;
         }
         .admin-mobile-link {
           border-top: 1px solid rgba(255,255,255,0.1);
           padding-top: 16px;
           margin-top: 8px;
-          color: var(--navy-light);
+          color: #9EA7B5;
         }
       `}</style>
     </header>

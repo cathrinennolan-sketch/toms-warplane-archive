@@ -1,3 +1,5 @@
+'use client';
+
 interface TagBadgeProps {
   tag: string;
   onRemove?: () => void;

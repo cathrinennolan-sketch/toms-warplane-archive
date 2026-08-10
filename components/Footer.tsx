@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 
 export default function Footer() {
@@ -35,10 +37,10 @@ export default function Footer() {
 
       <style jsx>{`
         .footer {
-          background-color: #1A2E4A;
+          background-color: #0B0C0E;
           color: var(--text-light);
           padding: 64px 0 32px;
-          border-top: 1px solid rgba(255,255,255,0.1);
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
           margin-top: auto;
         }
         .footer-grid {
@@ -59,12 +61,13 @@ export default function Footer() {
         }
         .footer-brand h3 {
           font-family: var(--font-heading);
-          color: var(--gold-light);
+          color: #FFFFFF;
           margin-bottom: 12px;
           font-size: 1.25rem;
+          letter-spacing: -0.01em;
         }
         .footer-brand p {
-          color: rgba(255,255,255,0.7);
+          color: #8C96A5;
           font-size: 0.875rem;
         }
         .footer-links {
@@ -73,26 +76,26 @@ export default function Footer() {
           gap: 12px;
         }
         .footer-links h4 {
-          font-size: 0.875rem;
+          font-size: 0.8125rem;
           text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: var(--surface);
+          letter-spacing: 0.08em;
+          color: #FFFFFF;
           margin-bottom: 8px;
         }
         .footer-links a {
-          color: rgba(255,255,255,0.7);
+          color: #8C96A5;
           font-size: 0.875rem;
           transition: color var(--transition-fast);
         }
         .footer-links a:hover {
-          color: var(--gold);
+          color: #FFFFFF;
         }
         .footer-bottom {
-          border-top: 1px solid rgba(255,255,255,0.1);
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
           padding-top: 24px;
           text-align: center;
           font-size: 0.875rem;
-          color: rgba(255,255,255,0.5);
+          color: #5E6670;
         }
       `}</style>
     </footer>
