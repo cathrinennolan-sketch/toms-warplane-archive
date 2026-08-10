@@ -2,141 +2,185 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const router = useRouter();
+  const pathname = usePathname();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-    }
-  };
+  const navLinks = [
+    { name: 'Gallery', path: '/gallery' },
+    { name: 'Persons', path: '/persons' },
+    { name: 'Documents', path: '/documents' },
+    { name: 'Search', path: '/search' },
+  ];
 
   return (
-    <header className="top-header">
-      <div className="top-header-container">
-        {/* Quick Search */}
-        <form onSubmit={handleSearchSubmit} className="top-search-form">
-          <svg className="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search photos, pilots, serial numbers, manuals..."
-            className="top-search-input"
-          />
-        </form>
+    <header className="header">
+      <div className="container header-container">
+        <Link href="/" className="logo">
+          Tom&apos;s Warplane Archive
+        </Link>
 
-        {/* Right Status & Actions */}
-        <div className="top-header-right">
-          <div className="status-badge">
-            <span className="status-dot"></span>
-            <span>Public Access</span>
-          </div>
+        {/* Desktop Nav */}
+        <nav className="desktop-nav">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              href={link.path}
+              className={`nav-link ${pathname.startsWith(link.path) ? 'active' : ''}`}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </nav>
 
-          <Link href="/admin" className="admin-btn">
-            <span>Admin Portal</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
+        <div className="header-right">
+          <Link href="/admin" className="admin-link">
+            Admin Portal
           </Link>
+          
+          {/* Mobile Menu Button */}
+          <button 
+            className="mobile-menu-btn"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
         </div>
       </div>
 
+      {/* Mobile Nav */}
+      {mobileMenuOpen && (
+        <div className="mobile-nav">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              href={link.path}
+              className={`mobile-nav-link ${pathname.startsWith(link.path) ? 'active' : ''}`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {link.name}
+            </Link>
+          ))}
+          <Link 
+            href="/admin" 
+            className="mobile-nav-link admin-mobile-link"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Admin Portal
+          </Link>
+        </div>
+      )}
+
       <style jsx>{`
-        .top-header {
-          background-color: #E2E6EE;
-          border-bottom: 1px solid #D2D7E0;
+        .header {
+          background-color: #D5DAE3;
+          color: var(--text);
           position: sticky;
           top: 0;
-          z-index: 80;
+          z-index: 100;
+          border-bottom: 1px solid #BCC3D0;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
-        .top-header-container {
+        .header-container {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          height: 64px;
-          padding: 0 24px;
-          gap: 20px;
+          height: 72px;
         }
-        .top-search-form {
-          position: relative;
-          flex: 1;
-          max-width: 480px;
-        }
-        .search-icon {
-          position: absolute;
-          left: 12px;
-          top: 50%;
-          transform: translateY(-50%);
-          color: #727B88;
-          pointer-events: none;
-        }
-        .top-search-input {
-          width: 100%;
-          padding: 9px 12px 9px 38px;
-          border-radius: var(--radius-md);
-          border: 1px solid #C4CBD6;
-          background-color: #FFFFFF;
-          font-family: var(--font-body);
-          font-size: 0.875rem;
+        .logo {
+          font-family: var(--font-heading);
+          font-size: 1.4rem;
+          font-weight: 700;
           color: #121417;
-          transition: all 0.2s ease;
+          text-decoration: none;
+          letter-spacing: -0.01em;
         }
-        .top-search-input:focus {
-          outline: none;
-          border-color: #121417;
-          box-shadow: 0 0 0 3px rgba(18,20,23,0.06);
-        }
-        .top-header-right {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-        }
-        .status-badge {
+        .desktop-nav {
           display: none;
-          align-items: center;
-          gap: 6px;
-          font-size: 0.78rem;
-          font-weight: 600;
-          color: #4F5866;
-          background-color: #FFFFFF;
-          padding: 4px 10px;
-          border-radius: var(--radius-full);
-          border: 1px solid #D2D7E0;
+          gap: 36px;
         }
         @media (min-width: 768px) {
-          .status-badge {
+          .desktop-nav {
             display: flex;
           }
+          .mobile-menu-btn {
+            display: none;
+          }
         }
-        .status-dot {
-          width: 7px;
-          height: 7px;
-          border-radius: 50%;
-          background-color: var(--success);
-        }
-        .admin-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          padding: 7px 14px;
-          border-radius: var(--radius-md);
-          background-color: #121417;
-          color: #FFFFFF;
-          font-size: 0.8125rem;
+        .nav-link {
           font-weight: 600;
-          text-decoration: none;
-          transition: all 0.2s ease;
+          font-size: 0.9375rem;
+          color: #3D4552;
+          transition: all var(--transition-fast);
+          padding: 8px 0;
+          border-bottom: 2px solid transparent;
+          letter-spacing: 0.01em;
         }
-        .admin-btn:hover {
-          background-color: #2D333C;
+        .nav-link:hover {
+          color: #121417;
+        }
+        .nav-link.active {
+          color: #121417;
+          border-bottom-color: #121417;
+        }
+        .header-right {
+          display: flex;
+          align-items: center;
+          gap: 24px;
+        }
+        .admin-link {
+          font-size: 0.84375rem;
+          color: #121417;
+          padding: 7px 16px;
+          border: 1px solid #121417;
+          border-radius: var(--radius-sm);
+          transition: all var(--transition-fast);
+          font-weight: 600;
+          background-color: transparent;
+        }
+        .admin-link:hover {
+          color: #FFFFFF;
+          background-color: #121417;
+        }
+        .mobile-menu-btn {
+          background: none;
+          border: none;
+          color: #121417;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 8px;
+        }
+        .mobile-nav {
+          background-color: #C8CFDB;
+          padding: 20px 24px;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          border-bottom: 1px solid #B0B7C4;
+        }
+        .mobile-nav-link {
+          color: #3D4552;
+          font-weight: 600;
+          padding: 8px 0;
+          display: block;
+        }
+        .mobile-nav-link.active {
+          color: #121417;
+        }
+        .admin-mobile-link {
+          border-top: 1px solid #A8B1C0;
+          padding-top: 16px;
+          margin-top: 8px;
+          color: #3D4552;
         }
       `}</style>
     </header>

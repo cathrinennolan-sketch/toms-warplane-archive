@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
-import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "./globals.css";
@@ -29,31 +28,18 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <div className="archive-app-shell">
-          <Sidebar />
-          <div className="archive-main-viewport">
-            <Header />
-            <main className="archive-page-content">{children}</main>
-            <Footer />
-          </div>
+          <Header />
+          <main className="archive-page-content">{children}</main>
+          <Footer />
         </div>
         <Toaster position="bottom-right" />
 
         <style>{`
           .archive-app-shell {
             display: flex;
+            flex-direction: column;
             min-height: 100vh;
             background-color: var(--bg);
-          }
-          .archive-main-viewport {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-          }
-          @media (min-width: 1024px) {
-            .archive-main-viewport {
-              margin-left: 270px;
-            }
           }
           .archive-page-content {
             flex: 1;
