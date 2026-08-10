@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { onAuthStateChanged, isUserAdmin } from '@/lib/auth';
+import { onAuthStateChanged, isUserAdmin, auth } from '@/lib/auth';
 
 export default function AdminGuard({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
@@ -10,7 +10,7 @@ export default function AdminGuard({ children }: { children: React.ReactNode }) 
   const router = useRouter();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(async (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
         setAuthorized(false);
         setLoading(false);
