@@ -80,13 +80,13 @@ export default function Header() {
 
       <style jsx>{`
         .header {
-          background-color: #0F1114;
-          color: var(--text-light);
+          background-color: #D5DAE3;
+          color: var(--text);
           position: sticky;
           top: 0;
           z-index: 100;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          backdrop-filter: blur(12px);
+          border-bottom: 1px solid #BCC3D0;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
         .header-container {
           display: flex;
@@ -98,7 +98,7 @@ export default function Header() {
           font-family: var(--font-heading);
           font-size: 1.4rem;
           font-weight: 700;
-          color: #FFFFFF;
+          color: #121417;
           text-decoration: none;
           letter-spacing: -0.01em;
         }
@@ -115,20 +115,20 @@ export default function Header() {
           }
         }
         .nav-link {
-          font-weight: 500;
+          font-weight: 600;
           font-size: 0.9375rem;
-          color: #9EA7B5;
+          color: #3D4552;
           transition: all var(--transition-fast);
           padding: 8px 0;
           border-bottom: 2px solid transparent;
-          letter-spacing: 0.02em;
+          letter-spacing: 0.01em;
         }
         .nav-link:hover {
-          color: #FFFFFF;
+          color: #121417;
         }
         .nav-link.active {
-          color: #FFFFFF;
-          border-bottom-color: var(--silver-bright);
+          color: #121417;
+          border-bottom-color: #121417;
         }
         .header-right {
           display: flex;
@@ -137,21 +137,23 @@ export default function Header() {
         }
         .admin-link {
           font-size: 0.84375rem;
-          color: #9EA7B5;
-          padding: 6px 12px;
-          border: 1px solid rgba(255,255,255,0.15);
+          color: #3D4552;
+          padding: 6px 14px;
+          border: 1px solid #A8B1C0;
           border-radius: var(--radius-sm);
           transition: all var(--transition-fast);
+          font-weight: 500;
+          background-color: rgba(255,255,255,0.4);
         }
         .admin-link:hover {
-          color: #FFFFFF;
-          border-color: rgba(255,255,255,0.4);
-          background-color: rgba(255,255,255,0.05);
+          color: #121417;
+          border-color: #121417;
+          background-color: #FFFFFF;
         }
         .mobile-menu-btn {
           background: none;
           border: none;
-          color: var(--surface);
+          color: #121417;
           cursor: pointer;
           display: flex;
           align-items: center;
@@ -159,27 +161,27 @@ export default function Header() {
           padding: 8px;
         }
         .mobile-nav {
-          background-color: #16191D;
+          background-color: #C8CFDB;
           padding: 20px 24px;
           display: flex;
           flex-direction: column;
           gap: 16px;
-          border-bottom: 1px solid rgba(255,255,255,0.1);
+          border-bottom: 1px solid #B0B7C4;
         }
         .mobile-nav-link {
-          color: #9EA7B5;
-          font-weight: 500;
+          color: #3D4552;
+          font-weight: 600;
           padding: 8px 0;
           display: block;
         }
         .mobile-nav-link.active {
-          color: #FFFFFF;
+          color: #121417;
         }
         .admin-mobile-link {
-          border-top: 1px solid rgba(255,255,255,0.1);
+          border-top: 1px solid #A8B1C0;
           padding-top: 16px;
           margin-top: 8px;
-          color: #9EA7B5;
+          color: #3D4552;
         }
       `}</style>
     </header>

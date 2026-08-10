@@ -48,7 +48,7 @@ export default function HomePage() {
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'hidden',
-        background: '#0E1013',
+        background: 'linear-gradient(135deg, #E2E6EE 0%, #C2C9D6 100%)',
       }}>
         {/* Background image */}
         {heroPhoto?.thumbnailUrl ? (
@@ -60,21 +60,21 @@ export default function HomePage() {
               src={heroPhoto.thumbnailUrl}
               alt={heroPhoto.title}
               fill
-              style={{ objectFit: 'cover', opacity: 0.4 }}
+              style={{ objectFit: 'cover', opacity: 0.35 }}
               priority
             />
           </div>
         ) : (
           <div style={{
             position: 'absolute', inset: 0,
-            background: 'radial-gradient(circle at center, #1C2026 0%, #0E1013 100%)',
+            background: 'radial-gradient(circle at center, #EAEFF5 0%, #BCC3CE 100%)',
           }} />
         )}
 
         {/* Gradient overlay */}
         <div style={{
           position: 'absolute', inset: 0,
-          background: 'linear-gradient(to bottom, rgba(14,16,19,0.4) 0%, rgba(14,16,19,0.75) 60%, rgba(14,16,19,0.98) 100%)',
+          background: 'linear-gradient(to bottom, rgba(226,230,238,0.25) 0%, rgba(200,207,218,0.7) 60%, rgba(188,195,206,0.96) 100%)',
         }} />
 
         {/* Hero content */}
@@ -91,7 +91,7 @@ export default function HomePage() {
             fontWeight: 700,
             letterSpacing: '3.5px',
             textTransform: 'uppercase',
-            color: '#A0AAB8',
+            color: '#4F5866',
             marginBottom: '20px',
           }}>
             WWII Aviation Photography Archive
@@ -100,7 +100,7 @@ export default function HomePage() {
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
             fontWeight: 700,
-            color: '#FFFFFF',
+            color: '#121417',
             lineHeight: 1.1,
             marginBottom: '24px',
             letterSpacing: '-0.02em',
@@ -110,7 +110,7 @@ export default function HomePage() {
           <p style={{
             fontFamily: 'var(--font-body)',
             fontSize: 'clamp(1rem, 2vw, 1.18rem)',
-            color: '#C1C7D0',
+            color: '#343A45',
             marginBottom: '44px',
             lineHeight: 1.7,
             maxWidth: '640px',
@@ -126,9 +126,10 @@ export default function HomePage() {
             gap: '0',
             maxWidth: '560px',
             margin: '0 auto 48px',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
             borderRadius: '6px',
             overflow: 'hidden',
+            border: '1px solid #B0B7C4',
           }}>
             <input
               type="text"
@@ -148,10 +149,9 @@ export default function HomePage() {
             />
             <button type="submit" style={{
               padding: '16px 28px',
-              background: '#16191D',
+              background: '#121417',
               color: '#FFFFFF',
               border: 'none',
-              borderLeft: '1px solid #2D333C',
               cursor: 'pointer',
               fontSize: '15px',
               fontFamily: 'var(--font-body)',
@@ -179,7 +179,7 @@ export default function HomePage() {
                   fontFamily: 'var(--font-display)',
                   fontSize: '2.1rem',
                   fontWeight: 700,
-                  color: '#FFFFFF',
+                  color: '#121417',
                   marginBottom: '2px',
                 }}>{stat.value}</p>
                 <p style={{
@@ -187,7 +187,7 @@ export default function HomePage() {
                   fontSize: '12px',
                   letterSpacing: '1.5px',
                   textTransform: 'uppercase',
-                  color: '#8C96A5',
+                  color: '#4F5866',
                 }}>{stat.label}</p>
               </div>
             ))}
@@ -210,7 +210,7 @@ export default function HomePage() {
                   width: i === currentHero ? '24px' : '8px',
                   height: '8px',
                   borderRadius: '4px',
-                  background: i === currentHero ? '#FFFFFF' : 'rgba(255,255,255,0.25)',
+                  background: i === currentHero ? '#121417' : 'rgba(18,20,23,0.25)',
                   border: 'none',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
@@ -375,7 +375,7 @@ export default function HomePage() {
       )}
 
       {/* ── About / Mission ───────────────────────────────────── */}
-      <section className="section" style={{ background: '#0E1013', color: 'var(--text-light)' }}>
+      <section className="section" style={{ background: '#C4CAD5', color: '#121417', borderTop: '1px solid #B0B7C4' }}>
         <div className="container-narrow" style={{ textAlign: 'center' }}>
           <p style={{
             fontFamily: 'var(--font-body)',
@@ -383,20 +383,20 @@ export default function HomePage() {
             fontWeight: 700,
             letterSpacing: '3px',
             textTransform: 'uppercase',
-            color: '#8C96A5',
+            color: '#4F5866',
             marginBottom: '16px',
           }}>About the Archive</p>
           <h2 style={{
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(1.8rem, 3vw, 2.4rem)',
             marginBottom: '24px',
-            color: '#FFFFFF',
+            color: '#121417',
           }}>Preserving Aviation History</h2>
           <p style={{
             fontFamily: 'var(--font-body)',
             fontSize: '1.08rem',
             lineHeight: 1.8,
-            color: '#C1C7D0',
+            color: '#343A45',
             marginBottom: '32px',
           }}>
             This archive is dedicated to collecting, preserving, and sharing photographs and records
@@ -405,8 +405,8 @@ export default function HomePage() {
             historians, and aviation enthusiasts worldwide.
           </p>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/gallery" className="btn btn-primary" style={{ background: '#FFFFFF', color: '#121417', borderColor: '#FFFFFF' }}>Explore the Gallery</Link>
-            <Link href="/search" className="btn btn-secondary" style={{ borderColor: 'rgba(255,255,255,0.25)', color: '#FFFFFF', background: 'transparent' }}>Search the Archive</Link>
+            <Link href="/gallery" className="btn btn-primary" style={{ background: '#121417', color: '#FFFFFF', borderColor: '#121417' }}>Explore the Gallery</Link>
+            <Link href="/search" className="btn btn-secondary" style={{ borderColor: '#121417', color: '#121417', background: 'transparent' }}>Search the Archive</Link>
           </div>
         </div>
       </section>

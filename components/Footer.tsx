@@ -37,10 +37,10 @@ export default function Footer() {
 
       <style jsx>{`
         .footer {
-          background-color: #0B0C0E;
-          color: var(--text-light);
+          background-color: #CBD1DC;
+          color: var(--text);
           padding: 64px 0 32px;
-          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          border-top: 1px solid #B0B7C4;
           margin-top: auto;
         }
         .footer-grid {
@@ -61,13 +61,13 @@ export default function Footer() {
         }
         .footer-brand h3 {
           font-family: var(--font-heading);
-          color: #FFFFFF;
+          color: #121417;
           margin-bottom: 12px;
           font-size: 1.25rem;
           letter-spacing: -0.01em;
         }
         .footer-brand p {
-          color: #8C96A5;
+          color: #4A5260;
           font-size: 0.875rem;
         }
         .footer-links {
@@ -79,23 +79,26 @@ export default function Footer() {
           font-size: 0.8125rem;
           text-transform: uppercase;
           letter-spacing: 0.08em;
-          color: #FFFFFF;
+          color: #121417;
           margin-bottom: 8px;
+          font-weight: 700;
         }
         .footer-links a {
-          color: #8C96A5;
+          color: #3D4552;
           font-size: 0.875rem;
+          font-weight: 500;
           transition: color var(--transition-fast);
         }
         .footer-links a:hover {
-          color: #FFFFFF;
+          color: #121417;
+          text-decoration: underline;
         }
         .footer-bottom {
-          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          border-top: 1px solid #B0B7C4;
           padding-top: 24px;
           text-align: center;
           font-size: 0.875rem;
-          color: #5E6670;
+          color: #5A6372;
         }
       `}</style>
     </footer>
