@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { auth, onAuthStateChanged, isUserAdmin } from "@/lib/auth";
 import toast from "react-hot-toast";
 
 export default function AdminLogin() {
@@ -12,8 +12,9 @@ export default function AdminLogin() {
   const router = useRouter();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
+        // Automatically proceed to admin area where AdminGuard validates access
         router.push("/admin");
       }
     });
@@ -48,32 +49,43 @@ export default function AdminLogin() {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh", backgroundColor: "var(--bg)", padding: "1rem" }}>
-      <div className="card" style={{ width: "100%", maxWidth: "500px", padding: "3rem 2rem", backgroundColor: "var(--surface)", borderRadius: "8px", boxShadow: "0 4px 12px rgba(0,0,0,0.05)", border: "1px solid var(--border)" }}>
-        <h1 style={{ fontFamily: "'Playfair Display', serif", textAlign: "center", color: "var(--navy)", margin: "0 0 0.5rem 0", fontSize: "2rem" }}>Tom's Warplane Archive</h1>
-        <h2 style={{ fontFamily: "'Inter', sans-serif", textAlign: "center", color: "var(--text-muted)", fontSize: "1.1rem", marginBottom: "2.5rem", fontWeight: 400 }}>Administrator Login</h2>
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "85vh", backgroundColor: "var(--bg)", padding: "1.5rem" }}>
+      <div className="card" style={{ width: "100%", maxWidth: "480px", padding: "3rem 2.5rem", backgroundColor: "#FFFFFF", borderRadius: "10px", boxShadow: "0 6px 20px rgba(0,0,0,0.05)", border: "1px solid #D2D7E0" }}>
+        <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+          <p style={{ fontSize: "0.75rem", fontWeight: 700, letterSpacing: "2.5px", textTransform: "uppercase", color: "#5C6470", marginBottom: "8px" }}>
+            MANAGEMENT CONSOLE
+          </p>
+          <h1 style={{ fontFamily: "var(--font-heading)", color: "#121417", margin: "0 0 0.5rem 0", fontSize: "1.85rem", fontWeight: 700 }}>
+            Tom&apos;s Warplane Archive
+          </h1>
+          <h2 style={{ fontFamily: "var(--font-body)", color: "#5C6470", fontSize: "0.95rem", margin: 0, fontWeight: 500 }}>
+            Administrator Login
+          </h2>
+        </div>
         
         <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
           <div className="form-group" style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-            <label className="form-label" style={{ fontWeight: 500, color: "var(--text)", fontSize: "0.95rem" }}>Email</label>
+            <label className="form-label" style={{ fontWeight: 600, color: "#121417", fontSize: "0.85rem" }}>Email Address</label>
             <input 
               type="email" 
               className="form-input" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
               required 
-              style={{ padding: "0.75rem", border: "1px solid var(--border)", borderRadius: "4px", fontSize: "1rem", outline: "none", transition: "border-color 0.2s ease" }}
+              placeholder="admin@example.com"
+              style={{ padding: "0.75rem 1rem", border: "1px solid #C4CBD6", borderRadius: "6px", fontSize: "0.95rem", outline: "none" }}
             />
           </div>
           <div className="form-group" style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-            <label className="form-label" style={{ fontWeight: 500, color: "var(--text)", fontSize: "0.95rem" }}>Password</label>
+            <label className="form-label" style={{ fontWeight: 600, color: "#121417", fontSize: "0.85rem" }}>Password</label>
             <input 
               type="password" 
               className="form-input" 
               value={password} 
               onChange={(e) => setPassword(e.target.value)} 
               required 
-              style={{ padding: "0.75rem", border: "1px solid var(--border)", borderRadius: "4px", fontSize: "1rem", outline: "none", transition: "border-color 0.2s ease" }}
+              placeholder="••••••••••••"
+              style={{ padding: "0.75rem 1rem", border: "1px solid #C4CBD6", borderRadius: "6px", fontSize: "0.95rem", outline: "none" }}
             />
           </div>
           
@@ -81,9 +93,9 @@ export default function AdminLogin() {
             type="submit" 
             className="btn btn-primary" 
             disabled={loading}
-            style={{ padding: "0.875rem", backgroundColor: "var(--navy)", color: "var(--surface)", border: "none", borderRadius: "4px", fontSize: "1rem", fontWeight: 500, cursor: loading ? "not-allowed" : "pointer", marginTop: "1rem", transition: "background-color 0.2s ease" }}
+            style={{ padding: "0.85rem", backgroundColor: "#121417", color: "#FFFFFF", border: "none", borderRadius: "6px", fontSize: "0.95rem", fontWeight: 600, cursor: loading ? "not-allowed" : "pointer", marginTop: "0.5rem" }}
           >
-            {loading ? "Signing in..." : "Sign In"}
+            {loading ? "Signing in..." : "Sign In to Admin Panel"}
           </button>
         </form>
         
@@ -91,7 +103,7 @@ export default function AdminLogin() {
           <button 
             type="button" 
             onClick={handleResetPassword}
-            style={{ background: "none", border: "none", color: "var(--navy)", cursor: "pointer", textDecoration: "underline", fontSize: "0.9rem" }}
+            style={{ background: "none", border: "none", color: "#4F5866", cursor: "pointer", textDecoration: "underline", fontSize: "0.85rem", fontWeight: 500 }}
           >
             Forgot password?
           </button>
