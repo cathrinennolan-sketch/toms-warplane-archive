@@ -1,9 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { getPhotos, getPersons, getDocuments, getAllAdmins } from "@/lib/firestore";
-import { Photo, Person, ArchiveDocument, Admin } from "@/lib/types";
-import { auth } from "@/lib/firebase";
+import { getPhotos, getPersons, getDocuments } from "@/lib/firestore";
+import { getAllAdmins, auth } from "@/lib/auth";
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({ photos: 0, persons: 0, documents: 0, admins: 0 });
@@ -13,25 +12,45 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [photos, persons, docs, admins] = await Promise.all([
-          getPhotos(),
-          getPersons(),
-          getDocuments(),
+        const [photosRes, personsRes, docsRes, adminsRes] = await Promise.all([
+          getPhotos({}, 100),
+          getPersons({}, 100),
+          getDocuments({}, 100),
           getAllAdmins()
         ]);
+
+        const photosList = photosRes?.photos || [];
+        const personsList = personsRes?.persons || [];
+        const docsList = docsRes?.documents || [];
+        const adminsList = adminsRes || [];
         
         setStats({
-          photos: photos.length,
-          persons: persons.length,
-          documents: docs.length,
-          admins: admins.length
+          photos: photosList.length,
+          persons: personsList.length,
+          documents: docsList.length,
+          admins: adminsList.length
         });
 
-        // Combine and sort by date for recent
+        // Combine and sort by date for recent uploads
         const allItems = [
-          ...photos.map(p => ({ id: p.id, title: p.title, type: "Photo", date: p.uploadedAt?.toDate?.() || new Date() })),
-          ...persons.map(p => ({ id: p.id, title: p.fullName, type: "Person", date: p.uploadedAt?.toDate?.() || new Date() })),
-          ...docs.map(d => ({ id: d.id, title: d.title, type: "Document", date: d.uploadedAt?.toDate?.() || new Date() }))
+          ...photosList.map(p => ({
+            id: p.id,
+            title: p.title,
+            type: "Photo",
+            date: p.uploadedAt ? (p.uploadedAt as any).toDate?.() || new Date() : new Date()
+          })),
+          ...personsList.map(p => ({
+            id: p.id,
+            title: p.fullName,
+            type: "Person",
+            date: p.uploadedAt ? (p.uploadedAt as any).toDate?.() || new Date() : new Date()
+          })),
+          ...docsList.map(d => ({
+            id: d.id,
+            title: d.title,
+            type: "Document",
+            date: d.uploadedAt ? (d.uploadedAt as any).toDate?.() || new Date() : new Date()
+          }))
         ];
 
         allItems.sort((a, b) => b.date.getTime() - a.date.getTime());
@@ -68,13 +87,16 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <h1 style={{ fontFamily: "'Playfair Display', serif", color: "var(--navy)", marginBottom: "0.5rem" }}>Dashboard</h1>
+      <h1 style={{ fontFamily: "var(--font-heading)", color: "var(--navy)", marginBottom: "0.5rem" }}>Dashboard</h1>
       <p style={{ color: "var(--text-muted)", marginBottom: "2rem" }}>
         Welcome, {auth.currentUser?.email || "Administrator"}
       </p>
 
       {loading ? (
-        <p>Loading dashboard...</p>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px", padding: "2rem 0" }}>
+          <div className="spinner"></div>
+          <p style={{ color: "var(--text-muted)" }}>Loading archive statistics...</p>
+        </div>
       ) : (
         <>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.5rem", marginBottom: "3rem" }}>
@@ -98,24 +120,24 @@ export default function AdminDashboard() {
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: "2rem" }}>
             <div>
-              <h2 style={{ fontFamily: "'Playfair Display', serif", color: "var(--navy)", marginBottom: "1rem" }}>Quick Actions</h2>
+              <h2 style={{ fontFamily: "var(--font-heading)", color: "var(--navy)", marginBottom: "1rem" }}>Quick Actions</h2>
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                 <Link href="/admin/upload/photo" style={btnStyle}>Upload Photo</Link>
                 <Link href="/admin/upload/person" style={btnStyle}>Upload Person</Link>
                 <Link href="/admin/upload/document" style={btnStyle}>Upload Document</Link>
-                <Link href="/admin/manage" style={{ ...btnStyle, backgroundColor: "var(--surface)", color: "var(--navy)", border: "1px solid var(--navy)" }}>Manage Content</Link>
+                <Link href="/admin/manage" style={{ ...btnStyle, backgroundColor: "var(--surface)", color: "var(--navy)", border: "1px solid var(--border-strong)" }}>Manage Content</Link>
               </div>
             </div>
 
             <div>
-              <h2 style={{ fontFamily: "'Playfair Display', serif", color: "var(--navy)", marginBottom: "1rem" }}>Recent Uploads</h2>
+              <h2 style={{ fontFamily: "var(--font-heading)", color: "var(--navy)", marginBottom: "1rem" }}>Recent Uploads</h2>
               <div style={{ backgroundColor: "var(--surface)", border: "1px solid var(--border)", borderRadius: "8px", overflow: "hidden" }}>
                 <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
                   <thead style={{ backgroundColor: "var(--bg-alt)", borderBottom: "1px solid var(--border)" }}>
                     <tr>
-                      <th style={{ padding: "1rem", fontWeight: 500, color: "var(--text-muted)" }}>Title / Name</th>
-                      <th style={{ padding: "1rem", fontWeight: 500, color: "var(--text-muted)" }}>Type</th>
-                      <th style={{ padding: "1rem", fontWeight: 500, color: "var(--text-muted)" }}>Date</th>
+                      <th style={{ padding: "1rem", fontWeight: 600, color: "var(--text-muted)" }}>Title / Name</th>
+                      <th style={{ padding: "1rem", fontWeight: 600, color: "var(--text-muted)" }}>Type</th>
+                      <th style={{ padding: "1rem", fontWeight: 600, color: "var(--text-muted)" }}>Date</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -131,7 +153,7 @@ export default function AdminDashboard() {
                       </tr>
                     )) : (
                       <tr>
-                        <td colSpan={3} style={{ padding: "2rem", textAlign: "center", color: "var(--text-muted)" }}>No recent uploads found.</td>
+                        <td colSpan={3} style={{ padding: "2rem", textAlign: "center", color: "var(--text-muted)" }}>No uploads found yet.</td>
                       </tr>
                     )}
                   </tbody>
