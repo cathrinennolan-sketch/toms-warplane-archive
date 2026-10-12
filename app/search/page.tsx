@@ -51,7 +51,7 @@ export default function SearchPage() {
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    router.push(\`/search?q=\${encodeURIComponent(query)}\`);
+    router.push(`/search?q=${encodeURIComponent(query)}`);
   };
 
   const totalFound = (showPhotos ? results.photos.length : 0) + 

@@ -99,8 +99,8 @@ export default function PhotoDetailPage() {
             <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>{photo.downloadCount || 0} downloads</span>
           </div>
           <div style={{ display: 'flex', gap: '15px' }}>
-            <ImageDownloader url={photo.imageUrl} filename={\`\${photo.id}-caption.jpg\`} label="⬇ Download with Caption" type="primary" />
-            <ImageDownloader url={photo.imageCleanUrl} filename={\`\${photo.id}-original.jpg\`} label="⬇ Download Original" type="secondary" />
+            <ImageDownloader url={photo.imageUrl} filename={`${photo.id}-caption.jpg`} label="⬇ Download with Caption" type="primary" />
+            <ImageDownloader url={photo.imageCleanUrl} filename={`${photo.id}-original.jpg`} label="⬇ Download Original" type="secondary" />
           </div>
         </div>
 

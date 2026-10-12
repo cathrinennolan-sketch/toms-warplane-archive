@@ -77,7 +77,7 @@ export default function DocumentDetailPage() {
         <div style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)', height: '75vh', marginBottom: '40px' }}>
           {document.fileUrl.endsWith('.pdf') ? (
             <iframe 
-              src={\`\${document.fileUrl}#toolbar=1\`}
+              src={`${document.fileUrl}#toolbar=1`}
               width="100%" 
               height="100%" 
               style={{ border: 'none' }}
